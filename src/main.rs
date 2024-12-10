@@ -1,6 +1,6 @@
 use structopt::StructOpt;
 
-use gpx_tools::utils::files::{get_files_from_masks};
+use gpx_tools::utils::files::get_files_from_masks;
 
 mod gpx_tools;
 
@@ -16,5 +16,5 @@ fn main() {
 	let args = Opt::from_args();
 	println!("Input: {:?}", args.input);
 	let files = get_files_from_masks(&args.input).unwrap();
-    println!("Files ({:?}): {:?}", files.len(), files);
+	println!("Files ({:?}): {:?}", files.len(), files);
 }
