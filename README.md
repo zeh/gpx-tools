@@ -21,3 +21,8 @@ Run tests
 ```
 cargo test
 ```
+
+## Building References
+
+* [Command Line Applications in Rust - In-depth topics](https://rust-cli.github.io/book/in-depth/index.html)
+* [StructOpt](https://docs.rs/structopt/latest/structopt/)
