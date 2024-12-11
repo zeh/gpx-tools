@@ -23,6 +23,42 @@ fn main() {
 	let args = Opt::from_args();
 	match args {
 		Opt::Elevation{ route, elevation } => {
+			println!("ELEVATION");
+			println!("=========");
+
+			let route_gpx = read_gpx_from_file(&route);
+
+			println!("Using route file: {:?}", route);
+			println!("- Created by {:?}", route_gpx.creator.unwrap_or("Unknown".to_string()));
+			println!("- This file has {:?} track(s) and {:?} route(s)", route_gpx.tracks.len(), route_gpx.routes.len());
+
+			assert!(route_gpx.tracks.len() == 1, "Route can only contain one track");
+
+			for track in &route_gpx.tracks {
+				println!("  - Track: {:?}", track.name.clone().unwrap_or("Unknown".to_owned()));
+				println!("  - This track has {:?} segment(s)", track.segments.len());
+
+				assert!(route_gpx.tracks[0].segments.len() == 1, "Track can only contain one segment");
+
+				for segment in &track.segments {
+					println!("    - This segment has {:?} point(s)", segment.points.len());
+					println!("    - Points with elevation: {}",
+						if segment.points.iter().all(|p| p.elevation.is_some()) {
+							"All"
+						} else {
+							if segment.points.iter().any(|p| p.elevation.is_some()) {
+								"Some"
+							} else {
+								"None"
+							}
+						}
+					);
+				}
+			}
+
+			println!("Using elevation mask(s): {:?}", elevation);
+
+			/*
 			println!("Input: {:?}", route);
 			let files = get_files_from_masks(&elevation).unwrap();
 			println!("Files: ({:?})", files.len());
@@ -65,6 +101,7 @@ fn main() {
 				// waypoint contains info like latitude, longitude, and elevation.
 				// let segment: &TrackSegment = &track.segments[0];
 			}
+			*/
 		}
 	}
 }
