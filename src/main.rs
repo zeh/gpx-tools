@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use structopt::StructOpt;
-use gpx_tools::utils::files::{get_files_from_masks, read_gpx_from_file};
+use gpx_tools::utils::files::{get_files_from_masks, read_gpx_from_file, read_gpx_from_files};
 
 mod gpx_tools;
 
@@ -58,10 +58,14 @@ fn main() {
 
 			println!("Using elevation mask(s): {:?}", elevation);
 
+			let elevation_files = get_files_from_masks(&elevation).unwrap();
+			println!("  - Using {:?} elevation files", elevation_files.len());
+
+			let elevation_gpxs = read_gpx_from_files(&elevation_files);
+			println!("  - Using {:?} GPX files", elevation_gpxs.len());
+
 			/*
 			println!("Input: {:?}", route);
-			let files = get_files_from_masks(&elevation).unwrap();
-			println!("Files: ({:?})", files.len());
 
 			for file in files {
 				println!("  File: {:?}", file);

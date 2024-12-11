@@ -24,8 +24,14 @@ pub fn get_files_from_masks(masks: &Vec<String>) -> Result<Vec<PathBuf>, &str> {
 	}
 }
 
+/// Given a file path, read that as a GPX
 pub fn read_gpx_from_file(filename: &PathBuf) -> Gpx {
     let data = File::open(filename).unwrap();
     let reader = BufReader::new(data);
     read(reader).unwrap()
+}
+
+/// Given a list of file paths, read that as a list of GPX
+pub fn read_gpx_from_files(filenames: &Vec<PathBuf>) -> Vec<Gpx> {
+    filenames.iter().map(|f| read_gpx_from_file(f)).collect::<Vec<Gpx>>()
 }
