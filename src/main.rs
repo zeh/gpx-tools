@@ -1,6 +1,9 @@
 use std::path::PathBuf;
 
 use structopt::StructOpt;
+
+use gpx_tools::commands::elevation;
+use gpx_tools::filters::remove_gpxs_without_elevation;
 use gpx_tools::utils::files::{get_files_from_masks, read_gpx_from_file, read_gpx_from_files};
 
 mod gpx_tools;
@@ -62,7 +65,14 @@ fn main() {
 			println!("  - Using {:?} elevation files", elevation_files.len());
 
 			let elevation_gpxs = read_gpx_from_files(&elevation_files);
-			println!("  - Using {:?} GPX files", elevation_gpxs.len());
+			let num_gpx = elevation_gpxs.len();
+			println!("  - Parsed {:?} GPX files", num_gpx);
+
+			let elevation_gpxs = remove_gpxs_without_elevation(&elevation_gpxs);
+			println!("  - Removed {:?} files due to lack of tracks with elevation", elevation_gpxs.len() - num_gpx);
+			let num_gpx = elevation_gpxs.len();
+
+			println!("  - Using {:?} GPX files", num_gpx);
 
 			/*
 			println!("Input: {:?}", route);
